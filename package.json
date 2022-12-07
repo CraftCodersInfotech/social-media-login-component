@@ -18,7 +18,7 @@
     "url": "https://github.com/CraftCodersInfotech/social-media-login-component/issues"
   },
   "homepage": "https://github.com/CraftCodersInfotech/social-media-login-component#readme",
-  "dependencies": {
+  "devDependencies": {
     "@react-native-google-signin/google-signin": "^9.0.0"
   }
 }
