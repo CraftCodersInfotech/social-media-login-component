@@ -1,8 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin"
+import { SigninContext } from "./context"
 
 const socialMedia = () => {
+  const { registerUser, userData } = useContext<any>(SigninContext);
   useEffect(() => {
     GoogleSignin.configure()
   }, [])
@@ -11,17 +13,18 @@ const socialMedia = () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+      await registerUser(userInfo);
       console.log("user info",userInfo);
       
     } catch (error:any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log(error);
+        console.log("error1",error);
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log(error);
+        console.log("error2",error);
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log(error);
+        console.log("error3",error);
       } else {
-        console.log(error);
+        console.log("error4",error);
       }
     }
   };
