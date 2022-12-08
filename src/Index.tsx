@@ -5,10 +5,6 @@ import { SigninContext } from "./context"
 
 const socialMedia = () => {
   const { registerUser, userData } = useContext<any>(SigninContext);
-  useEffect(() => {
-    GoogleSignin.configure()
-  }, [])
-  
   const googleSignin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
