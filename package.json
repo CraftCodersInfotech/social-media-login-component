@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/CraftCodersInfotech/social-media-login-component#readme",
   "devDependencies": {
-    "@react-native-google-signin/google-signin": "^9.0.0"
+    "@react-native-google-signin/google-signin": "^9.0.0",
+    "react-native-fbsdk": "^3.0.0"
   }
 }
