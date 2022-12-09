@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/CraftCodersInfotech/social-media-login-component#readme",
   "devDependencies": {
+    "@react-native-firebase/auth": "^16.4.6",
     "@react-native-google-signin/google-signin": "^9.0.0",
     "react-native-fbsdk-next": "^11.1.0"
   }
