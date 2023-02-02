@@ -70,6 +70,18 @@ const socialMedia = () => {
         </View>
         <Text>FaceBook SignIn</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={{ marginVertical: 12, paddingVertical: 10, backgroundColor: "#cdcdcd", alignItems: "center", justifyContent: "center", width: "100%", flexDirection: "row",borderRadius:8 }}
+        // onPress={() => faceBookSignin()}
+      >
+        <View style={{ marginRight: 15 }}>
+
+          <Image
+            style={{ height: 20, width: 20 }}
+            source={require('../src/assets/appleIcon.png')}
+          />
+        </View>
+        <Text>Login with Apple</Text>
+      </TouchableOpacity>
     </>
 
   )
