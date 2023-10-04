@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+} from "react-native";
 import React, { useContext, useEffect } from "react";
 import {
   GoogleSignin,
@@ -7,20 +14,38 @@ import {
 import { SigninContext } from "./context";
 import auth from "@react-native-firebase/auth";
 import { appleAuth } from "@invertase/react-native-apple-authentication";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 interface SocialMediaTypes {
-  webClientId: string;
-  iosClientId: string;
+  webClientId?: string;
+  iosClientId?: string;
+  refreshToken?: string;
 }
 
-const socialMedia = ({ webClientId, iosClientId }: SocialMediaTypes) => {
-  GoogleSignin.configure({
-    webClientId,
-    iosClientId,
-  });
+const socialMedia = ({
+  webClientId,
+  iosClientId,
+  refreshToken,
+}: SocialMediaTypes) => {
+  if (webClientId && iosClientId) {
+    GoogleSignin.configure({
+      webClientId,
+      iosClientId,
+    });
+  } else if (webClientId) {
+    GoogleSignin.configure({
+      webClientId,
+    });
+  } else if (iosClientId) {
+    GoogleSignin.configure({
+      iosClientId,
+    });
+  }
 
-  const { registerUser, setError } = useContext<any>(SigninContext);
+  const { registerUser, setError, setAppleToken } =
+    useContext<any>(SigninContext);
 
   const googleSignin = async () => {
     setError(undefined);
@@ -81,6 +106,9 @@ const socialMedia = ({ webClientId, iosClientId }: SocialMediaTypes) => {
         nonce
       );
       const userInfo = await auth().signInWithCredential(appleCredential);
+      if (appleAuthRequestResponse.authorizationCode) {
+        getRefreshTokenApi(appleAuthRequestResponse.authorizationCode);
+      }
       // Sign the user in with the credential
       registerUser(userInfo);
     } catch (err) {
@@ -88,6 +116,24 @@ const socialMedia = ({ webClientId, iosClientId }: SocialMediaTypes) => {
       console.log("apple Error : ", err);
     }
   }
+
+  const getRefreshTokenApi = async (authorizationCode: string) => {
+    if (authorizationCode && Platform.OS == "ios") {
+      const uri = `${refreshToken}?code=${authorizationCode}`;
+      await axios
+        .post(uri)
+        .then((res: { data: any }) => {
+          AsyncStorage.setItem(
+            "@appleToken",
+            JSON.stringify({ token: res.data })
+          );
+          setAppleToken({ token: res.data });
+        })
+        .catch((err: any) => {
+          console.log("Api calling error : ", err);
+        });
+    }
+  };
 
   return (
     <>
