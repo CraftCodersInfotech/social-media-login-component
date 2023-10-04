@@ -1,2 +1,2 @@
 export { SigninContext } from "./Signin-context";
-export { default as SignProvider } from "./Signin-provider";
+export { default as SigninProvider } from "./Signin-provider";

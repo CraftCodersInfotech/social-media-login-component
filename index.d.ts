@@ -1,2 +1,3 @@
 import socialMedia from "./src/Index";
-export{socialMedia as default}
+import { SigninContext, SigninProvider } from "./src/context";
+export { socialMedia as default, SigninProvider, SigninContext };

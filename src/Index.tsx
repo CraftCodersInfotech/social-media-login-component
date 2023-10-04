@@ -3,10 +3,21 @@ import React, { useContext, useEffect } from 'react'
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin"
 import { SigninContext } from "./context"
 import auth from '@react-native-firebase/auth';
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+// import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
-const socialMedia = () => {
-  const { registerUser, userData } = useContext<any>(SigninContext);
+interface SocialMediaTypes{
+  webClientId:string,iosClientId:string
+}
+
+const socialMedia = ({webClientId,iosClientId}:SocialMediaTypes) => {
+
+  GoogleSignin.configure({
+    webClientId,
+    iosClientId
+  });
+
+  const { registerUser } = useContext<any>(SigninContext);
+
   const googleSignin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -27,22 +38,22 @@ const socialMedia = () => {
     }
   };
 
-  const faceBookSignin = async () => {
-    const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+  // const faceBookSignin = async () => {
+  //   const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
-    if (result.isCancelled) {
-      throw 'User cancelled the login process';
-    }
-    const data = await AccessToken.getCurrentAccessToken();
+  //   if (result.isCancelled) {
+  //     throw 'User cancelled the login process';
+  //   }
+  //   const data = await AccessToken.getCurrentAccessToken();
 
-    if (!data) {
-      throw 'Something went wrong obtaining access token';
-    }
+  //   if (!data) {
+  //     throw 'Something went wrong obtaining access token';
+  //   }
 
-    const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+  //   const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
 
-    return auth().signInWithCredential(facebookCredential);
-  }
+  //   return auth().signInWithCredential(facebookCredential);
+  // }
 
   return (
     <>
@@ -59,7 +70,7 @@ const socialMedia = () => {
       </TouchableOpacity>
 
       <TouchableOpacity style={{ marginVertical: 12, paddingVertical: 10, backgroundColor: "#cdcdcd", alignItems: "center", justifyContent: "center", width: "100%", flexDirection: "row",borderRadius:8 }}
-        onPress={() => faceBookSignin()}
+        // onPress={() => faceBookSignin()}
       >
         <View style={{ marginRight: 15 }}>
 
