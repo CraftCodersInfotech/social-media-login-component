@@ -1,31 +1,36 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useEffect } from 'react'
-import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin"
-import { SigninContext } from "./context"
-import auth from '@react-native-firebase/auth';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useContext, useEffect } from "react";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+import { SigninContext } from "./context";
+import auth from "@react-native-firebase/auth";
+import { appleAuth } from "@invertase/react-native-apple-authentication";
 // import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
-interface SocialMediaTypes{
-  webClientId:string,iosClientId:string
+interface SocialMediaTypes {
+  webClientId: string;
+  iosClientId: string;
 }
 
-const socialMedia = ({webClientId,iosClientId}:SocialMediaTypes) => {
-
+const socialMedia = ({ webClientId, iosClientId }: SocialMediaTypes) => {
   GoogleSignin.configure({
     webClientId,
-    iosClientId
+    iosClientId,
   });
 
-  const { registerUser } = useContext<any>(SigninContext);
+  const { registerUser, setError } = useContext<any>(SigninContext);
 
   const googleSignin = async () => {
+    setError(undefined);
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      await registerUser(userInfo);
       console.log("user info", userInfo);
-
+      await registerUser(userInfo);
     } catch (error: any) {
+      setError(error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log("error1", error);
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -55,49 +60,105 @@ const socialMedia = ({webClientId,iosClientId}:SocialMediaTypes) => {
   //   return auth().signInWithCredential(facebookCredential);
   // }
 
+  async function onAppleButtonPress() {
+    setError(undefined);
+    // Start the sign-in request
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      // Ensure Apple returned a user identityToken
+      if (!appleAuthRequestResponse.identityToken) {
+        throw new Error("Apple Sign-In failed - no identify token returned");
+      }
+
+      // Create a Firebase credential from the response
+      const { identityToken, nonce } = appleAuthRequestResponse;
+      const appleCredential = auth.AppleAuthProvider.credential(
+        identityToken,
+        nonce
+      );
+      const userInfo = await auth().signInWithCredential(appleCredential);
+      // Sign the user in with the credential
+      registerUser(userInfo);
+    } catch (err) {
+      setError(err);
+      console.log("apple Error : ", err);
+    }
+  }
+
   return (
     <>
-      <TouchableOpacity style={{ marginVertical: 12, paddingVertical: 10, backgroundColor: "#cdcdcd", alignItems: "center", justifyContent: "center", width: "100%", flexDirection: "row",borderRadius:8 }}
-        onPress={() => googleSignin()}>
+      <TouchableOpacity
+        style={{
+          marginVertical: 12,
+          paddingVertical: 10,
+          backgroundColor: "#cdcdcd",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          flexDirection: "row",
+          borderRadius: 8,
+        }}
+        onPress={() => googleSignin()}
+      >
         <View style={{ marginRight: 15 }}>
-
           <Image
             style={{ height: 20, width: 20 }}
-            source={require('../src/assets/google.png')}
+            source={require("../src/assets/google.png")}
           />
         </View>
         <Text>Google SignIn</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={{ marginVertical: 12, paddingVertical: 10, backgroundColor: "#cdcdcd", alignItems: "center", justifyContent: "center", width: "100%", flexDirection: "row",borderRadius:8 }}
+      <TouchableOpacity
+        style={{
+          marginVertical: 12,
+          paddingVertical: 10,
+          backgroundColor: "#cdcdcd",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          flexDirection: "row",
+          borderRadius: 8,
+        }}
         // onPress={() => faceBookSignin()}
       >
         <View style={{ marginRight: 15 }}>
-
           <Image
             style={{ height: 20, width: 20 }}
-            source={require('../src/assets/FB.png')}
+            source={require("../src/assets/FB.png")}
           />
         </View>
         <Text>FaceBook SignIn</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{ marginVertical: 12, paddingVertical: 10, backgroundColor: "#cdcdcd", alignItems: "center", justifyContent: "center", width: "100%", flexDirection: "row",borderRadius:8 }}
-        // onPress={() => faceBookSignin()}
+      <TouchableOpacity
+        style={{
+          marginVertical: 12,
+          paddingVertical: 10,
+          backgroundColor: "#cdcdcd",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          flexDirection: "row",
+          borderRadius: 8,
+        }}
+        onPress={onAppleButtonPress}
       >
         <View style={{ marginRight: 15 }}>
-
           <Image
             style={{ height: 20, width: 20 }}
-            source={require('../src/assets/appleIcon.png')}
+            source={require("../src/assets/appleIcon.png")}
           />
         </View>
         <Text>Login with Apple</Text>
       </TouchableOpacity>
     </>
+  );
+};
 
-  )
-}
+export default socialMedia;
 
-export default socialMedia
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
