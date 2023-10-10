@@ -7,6 +7,7 @@ import {
   StyleProp,
   ViewStyle,
   ImageSourcePropType,
+  ImageStyle,
 } from "react-native";
 import React, { useContext } from "react";
 import {
@@ -32,6 +33,8 @@ interface SocialMediaTypes {
   googleImg?: ImageSourcePropType;
   facebookImg?: ImageSourcePropType;
   appleImg?: ImageSourcePropType;
+  imageContainerStyle?: StyleProp<ViewStyle>;
+  imageStyle?: StyleProp<ImageStyle>;
 }
 
 const socialMedia = ({
@@ -46,6 +49,8 @@ const socialMedia = ({
   googleImg,
   facebookImg,
   appleImg,
+  imageContainerStyle,
+  imageStyle,
 }: SocialMediaTypes) => {
   // if (webClientId && iosClientId) {
   //   GoogleSignin.configure({
@@ -156,64 +161,32 @@ const socialMedia = ({
   return (
     <View style={viewStyle}>
       <TouchableOpacity
-        style={{
-          marginVertical: 12,
-          paddingVertical: 10,
-          backgroundColor: "#cdcdcd",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          flexDirection: "row",
-          borderRadius: 8,
-        }}
+        style={imageContainerStyle}
         onPress={() => googleSignin()}
       >
-        <View style={{ marginRight: 15 }}>
-          <Image
-            style={{ height: 20, width: 20 }}
-            source={googleImg ?? require("../src/assets/google.png")}
-          />
-        </View>
+        <Image
+          style={imageStyle ?? { height: 20, width: 20 }}
+          source={googleImg ?? require("../src/assets/google.png")}
+        />
         {googleTitle ? <Text>{googleTitle}</Text> : null}
       </TouchableOpacity>
-
       <TouchableOpacity
-        style={{
-          marginVertical: 12,
-          paddingVertical: 10,
-          backgroundColor: "#cdcdcd",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          flexDirection: "row",
-          borderRadius: 8,
-        }}
+        style={imageContainerStyle}
         // onPress={() => faceBookSignin()}
       >
-        <View style={{ marginRight: 15 }}>
-          <Image
-            style={{ height: 20, width: 20 }}
-            source={facebookImg ?? require("../src/assets/FB.png")}
-          />
-        </View>
+        <Image
+          style={imageStyle ?? { height: 20, width: 20 }}
+          source={facebookImg ?? require("../src/assets/FB.png")}
+        />
         {facebookTitle ? <Text>{facebookTitle}</Text> : null}
       </TouchableOpacity>
       <TouchableOpacity
-        style={{
-          marginVertical: 12,
-          paddingVertical: 10,
-          backgroundColor: "#cdcdcd",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-          flexDirection: "row",
-          borderRadius: 8,
-        }}
+        style={imageContainerStyle}
         onPress={onAppleButtonPress}
       >
         <View style={{ marginRight: 15 }}>
           <Image
-            style={{ height: 20, width: 20 }}
+            style={imageStyle ?? { height: 20, width: 20 }}
             source={appleImg ?? require("../src/assets/appleIcon.png")}
           />
         </View>
