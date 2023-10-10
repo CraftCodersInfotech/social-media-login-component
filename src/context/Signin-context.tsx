@@ -11,6 +11,7 @@ export interface ISigninContext {
   userData: any;
   error: any;
   appleToken: any;
+  setError: any;
 }
 const SigninContextDefaultValue = {
   registerUser: () => {},
@@ -18,6 +19,7 @@ const SigninContextDefaultValue = {
   error: undefined,
   appleToken: {},
   setAppleToken: () => {},
+  setError: () => {},
 };
 export const SigninContext = createContext<ISigninContext>(
   SigninContextDefaultValue
@@ -34,7 +36,7 @@ export const useSigninStore = () => {
 
   const getAppleToken = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("my-key");
+      const jsonValue = await AsyncStorage.getItem("@appleToken");
       const res = jsonValue != null ? JSON.parse(jsonValue) : null;
       if (res) {
         setAppleToken(res);

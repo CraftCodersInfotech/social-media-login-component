@@ -1,12 +1,14 @@
 import {
   Image,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Platform,
+  StyleProp,
+  ViewStyle,
+  ImageSourcePropType,
 } from "react-native";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import {
   GoogleSignin,
   statusCodes,
@@ -19,30 +21,46 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 interface SocialMediaTypes {
-  webClientId?: string;
-  iosClientId?: string;
+  // webClientId?: string;
+  // iosClientId?: string;
   refreshToken?: string;
+  viewStyle?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
+  googleTitle?: string;
+  facebookTitle?: string;
+  appleTitle?: string;
+  googleImg?: ImageSourcePropType;
+  facebookImg?: ImageSourcePropType;
+  appleImg?: ImageSourcePropType;
 }
 
 const socialMedia = ({
-  webClientId,
-  iosClientId,
+  // webClientId,
+  // iosClientId,
   refreshToken,
+  viewStyle,
+  children,
+  googleTitle,
+  facebookTitle,
+  appleTitle,
+  googleImg,
+  facebookImg,
+  appleImg,
 }: SocialMediaTypes) => {
-  if (webClientId && iosClientId) {
-    GoogleSignin.configure({
-      webClientId,
-      iosClientId,
-    });
-  } else if (webClientId) {
-    GoogleSignin.configure({
-      webClientId,
-    });
-  } else if (iosClientId) {
-    GoogleSignin.configure({
-      iosClientId,
-    });
-  }
+  // if (webClientId && iosClientId) {
+  //   GoogleSignin.configure({
+  //     webClientId,
+  //     iosClientId,
+  //   });
+  // } else if (webClientId) {
+  //   GoogleSignin.configure({
+  //     webClientId,
+  //   });
+  // } else if (iosClientId) {
+  //   GoogleSignin.configure({
+  //     iosClientId,
+  //   });
+  // }
 
   const { registerUser, setError, setAppleToken } =
     useContext<any>(SigninContext);
@@ -136,7 +154,7 @@ const socialMedia = ({
   };
 
   return (
-    <>
+    <View style={viewStyle}>
       <TouchableOpacity
         style={{
           marginVertical: 12,
@@ -153,10 +171,10 @@ const socialMedia = ({
         <View style={{ marginRight: 15 }}>
           <Image
             style={{ height: 20, width: 20 }}
-            source={require("../src/assets/google.png")}
+            source={googleImg ?? require("../src/assets/google.png")}
           />
         </View>
-        <Text>Google SignIn</Text>
+        {googleTitle ? <Text>{googleTitle}</Text> : null}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -175,10 +193,10 @@ const socialMedia = ({
         <View style={{ marginRight: 15 }}>
           <Image
             style={{ height: 20, width: 20 }}
-            source={require("../src/assets/FB.png")}
+            source={facebookImg ?? require("../src/assets/FB.png")}
           />
         </View>
-        <Text>FaceBook SignIn</Text>
+        {facebookTitle ? <Text>{facebookTitle}</Text> : null}
       </TouchableOpacity>
       <TouchableOpacity
         style={{
@@ -196,15 +214,13 @@ const socialMedia = ({
         <View style={{ marginRight: 15 }}>
           <Image
             style={{ height: 20, width: 20 }}
-            source={require("../src/assets/appleIcon.png")}
+            source={appleImg ?? require("../src/assets/appleIcon.png")}
           />
         </View>
-        <Text>Login with Apple</Text>
+        {appleTitle ? <Text>{appleTitle}</Text> : null}
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 
 export default socialMedia;
-
-const styles = StyleSheet.create({});
