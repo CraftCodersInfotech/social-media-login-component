@@ -247,12 +247,10 @@ const socialMedia = (props: SocialMediaTypes) => {
                 }
               }}
             >
-              <View style={{}}>
-                <Image
-                  style={imageStyle ?? { height: 20, width: 20 }}
-                  source={appleImg}
-                />
-              </View>
+              <Image
+                style={imageStyle ?? { height: 20, width: 20 }}
+                source={appleImg}
+              />
               {appleTitle ? <Text>{appleTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
