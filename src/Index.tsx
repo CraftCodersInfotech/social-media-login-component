@@ -37,6 +37,8 @@ interface SocialMediaTypes {
   imageStyle?: StyleProp<ImageStyle>;
   defaultImages?: boolean;
   onPress?: () => void;
+  onSuccess?: (e: any) => void;
+  onError?: (err: any) => void;
 }
 
 const socialMedia = (props: SocialMediaTypes) => {
@@ -56,6 +58,8 @@ const socialMedia = (props: SocialMediaTypes) => {
     imageStyle,
     defaultImages = true,
     onPress,
+    onError,
+    onSuccess,
   } = props;
   // if (webClientId && iosClientId) {
   //   GoogleSignin.configure({
@@ -81,8 +85,14 @@ const socialMedia = (props: SocialMediaTypes) => {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log("user info", userInfo);
+      if (onSuccess) {
+        onSuccess(userInfo);
+      }
       await registerUser(userInfo);
     } catch (error: any) {
+      if (onError) {
+        onError(error);
+      }
       setError(error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log("error1", error);
@@ -137,9 +147,15 @@ const socialMedia = (props: SocialMediaTypes) => {
       if (appleAuthRequestResponse.authorizationCode) {
         getRefreshTokenApi(appleAuthRequestResponse.authorizationCode);
       }
+      if (onSuccess) {
+        onSuccess(userInfo);
+      }
       // Sign the user in with the credential
       registerUser(userInfo);
     } catch (err) {
+      if (onError) {
+        onError(err);
+      }
       setError(err);
       console.log("apple Error : ", err);
     }
