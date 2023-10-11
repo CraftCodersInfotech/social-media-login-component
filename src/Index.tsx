@@ -22,8 +22,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 interface SocialMediaTypes {
-  // webClientId?: string;
-  // iosClientId?: string;
   refreshToken?: string;
   viewStyle?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
@@ -43,11 +41,8 @@ interface SocialMediaTypes {
 
 const socialMedia = (props: SocialMediaTypes) => {
   const {
-    // webClientId,
-    // iosClientId,
     refreshToken,
     viewStyle,
-    children,
     googleTitle,
     facebookTitle,
     appleTitle,
@@ -61,20 +56,6 @@ const socialMedia = (props: SocialMediaTypes) => {
     onError,
     onSuccess,
   } = props;
-  // if (webClientId && iosClientId) {
-  //   GoogleSignin.configure({
-  //     webClientId,
-  //     iosClientId,
-  //   });
-  // } else if (webClientId) {
-  //   GoogleSignin.configure({
-  //     webClientId,
-  //   });
-  // } else if (iosClientId) {
-  //   GoogleSignin.configure({
-  //     iosClientId,
-  //   });
-  // }
 
   const { registerUser, setError, setAppleToken } =
     useContext<any>(SigninContext);
@@ -157,7 +138,6 @@ const socialMedia = (props: SocialMediaTypes) => {
         onError(err);
       }
       setError(err);
-      console.log("apple Error : ", err);
     }
   }
 
@@ -174,7 +154,7 @@ const socialMedia = (props: SocialMediaTypes) => {
           setAppleToken({ token: res.data });
         })
         .catch((err: any) => {
-          console.log("Api calling error : ", err);
+          console.warn("Refresh token Api calling error : ", err);
         });
     }
   };
