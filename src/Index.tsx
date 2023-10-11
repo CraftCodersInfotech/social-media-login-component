@@ -35,23 +35,26 @@ interface SocialMediaTypes {
   appleImg?: ImageSourcePropType;
   imageContainerStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ImageStyle>;
+  defaultImages?: boolean;
 }
 
-const socialMedia = ({
-  // webClientId,
-  // iosClientId,
-  refreshToken,
-  viewStyle,
-  children,
-  googleTitle,
-  facebookTitle,
-  appleTitle,
-  googleImg,
-  facebookImg,
-  appleImg,
-  imageContainerStyle,
-  imageStyle,
-}: SocialMediaTypes) => {
+const socialMedia = (props: SocialMediaTypes) => {
+  const {
+    // webClientId,
+    // iosClientId,
+    refreshToken,
+    viewStyle,
+    children,
+    googleTitle,
+    facebookTitle,
+    appleTitle,
+    googleImg,
+    facebookImg,
+    appleImg,
+    imageContainerStyle,
+    imageStyle,
+    defaultImages = true,
+  } = props;
   // if (webClientId && iosClientId) {
   //   GoogleSignin.configure({
   //     webClientId,
@@ -160,38 +163,83 @@ const socialMedia = ({
 
   return (
     <View style={viewStyle}>
-      <TouchableOpacity
-        style={imageContainerStyle}
-        onPress={() => googleSignin()}
-      >
-        <Image
-          style={imageStyle ?? { height: 20, width: 20 }}
-          source={googleImg ?? require("../src/assets/google.png")}
-        />
-        {googleTitle ? <Text>{googleTitle}</Text> : null}
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={imageContainerStyle}
-        // onPress={() => faceBookSignin()}
-      >
-        <Image
-          style={imageStyle ?? { height: 20, width: 20 }}
-          source={facebookImg ?? require("../src/assets/FB.png")}
-        />
-        {facebookTitle ? <Text>{facebookTitle}</Text> : null}
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={imageContainerStyle}
-        onPress={onAppleButtonPress}
-      >
-        <View style={{ marginRight: 15 }}>
-          <Image
-            style={imageStyle ?? { height: 20, width: 20 }}
-            source={appleImg ?? require("../src/assets/appleIcon.png")}
-          />
-        </View>
-        {appleTitle ? <Text>{appleTitle}</Text> : null}
-      </TouchableOpacity>
+      {defaultImages ? (
+        <>
+          <TouchableOpacity
+            style={imageContainerStyle}
+            onPress={() => googleSignin()}
+          >
+            <Image
+              style={imageStyle ?? { height: 20, width: 20 }}
+              source={require("../src/assets/google.png")}
+            />
+            {googleTitle ? <Text>{googleTitle}</Text> : null}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={imageContainerStyle}
+            // onPress={() => faceBookSignin()}
+          >
+            <Image
+              style={imageStyle ?? { height: 20, width: 20 }}
+              source={require("../src/assets/FB.png")}
+            />
+            {facebookTitle ? <Text>{facebookTitle}</Text> : null}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={imageContainerStyle}
+            onPress={onAppleButtonPress}
+          >
+            <View style={{ marginRight: 15 }}>
+              <Image
+                style={imageStyle ?? { height: 20, width: 20 }}
+                source={require("../src/assets/appleIcon.png")}
+              />
+            </View>
+            {appleTitle ? <Text>{appleTitle}</Text> : null}
+          </TouchableOpacity>
+        </>
+      ) : (
+        <>
+          {googleImg ? (
+            <TouchableOpacity
+              style={imageContainerStyle}
+              onPress={() => googleSignin()}
+            >
+              <Image
+                style={imageStyle ?? { height: 20, width: 20 }}
+                source={googleImg ?? require("../src/assets/google.png")}
+              />
+              {googleTitle ? <Text>{googleTitle}</Text> : null}
+            </TouchableOpacity>
+          ) : null}
+          {facebookImg ? (
+            <TouchableOpacity
+              style={imageContainerStyle}
+              // onPress={() => faceBookSignin()}
+            >
+              <Image
+                style={imageStyle ?? { height: 20, width: 20 }}
+                source={facebookImg}
+              />
+              {facebookTitle ? <Text>{facebookTitle}</Text> : null}
+            </TouchableOpacity>
+          ) : null}
+          {appleImg ? (
+            <TouchableOpacity
+              style={imageContainerStyle}
+              onPress={onAppleButtonPress}
+            >
+              <View style={{ marginRight: 15 }}>
+                <Image
+                  style={imageStyle ?? { height: 20, width: 20 }}
+                  source={appleImg}
+                />
+              </View>
+              {appleTitle ? <Text>{appleTitle}</Text> : null}
+            </TouchableOpacity>
+          ) : null}
+        </>
+      )}
     </View>
   );
 };
