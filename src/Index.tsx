@@ -36,6 +36,7 @@ interface SocialMediaTypes {
   imageContainerStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ImageStyle>;
   defaultImages?: boolean;
+  onPress?: () => void;
 }
 
 const socialMedia = (props: SocialMediaTypes) => {
@@ -54,6 +55,7 @@ const socialMedia = (props: SocialMediaTypes) => {
     imageContainerStyle,
     imageStyle,
     defaultImages = true,
+    onPress,
   } = props;
   // if (webClientId && iosClientId) {
   //   GoogleSignin.configure({
@@ -167,7 +169,12 @@ const socialMedia = (props: SocialMediaTypes) => {
         <>
           <TouchableOpacity
             style={imageContainerStyle}
-            onPress={() => googleSignin()}
+            onPress={() => {
+              googleSignin();
+              if (onPress) {
+                onPress();
+              }
+            }}
           >
             <Image
               style={imageStyle ?? { height: 20, width: 20 }}
@@ -187,7 +194,12 @@ const socialMedia = (props: SocialMediaTypes) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={imageContainerStyle}
-            onPress={onAppleButtonPress}
+            onPress={() => {
+              onAppleButtonPress();
+              if (onPress) {
+                onPress();
+              }
+            }}
           >
             <View style={{ marginRight: 15 }}>
               <Image
@@ -203,7 +215,12 @@ const socialMedia = (props: SocialMediaTypes) => {
           {googleImg ? (
             <TouchableOpacity
               style={imageContainerStyle}
-              onPress={() => googleSignin()}
+              onPress={() => {
+                googleSignin();
+                if (onPress) {
+                  onPress();
+                }
+              }}
             >
               <Image
                 style={imageStyle ?? { height: 20, width: 20 }}
@@ -227,7 +244,12 @@ const socialMedia = (props: SocialMediaTypes) => {
           {appleImg ? (
             <TouchableOpacity
               style={imageContainerStyle}
-              onPress={onAppleButtonPress}
+              onPress={() => {
+                onAppleButtonPress();
+                if (onPress) {
+                  onPress();
+                }
+              }}
             >
               <View style={{ marginRight: 15 }}>
                 <Image
