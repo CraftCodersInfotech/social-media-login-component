@@ -197,7 +197,7 @@ const socialMedia = (props: SocialMediaTypes) => {
               }
             }}
           >
-            <View style={{ marginRight: 15 }}>
+            <View style={{}}>
               <Image
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={require("../src/assets/appleIcon.png")}
@@ -247,7 +247,7 @@ const socialMedia = (props: SocialMediaTypes) => {
                 }
               }}
             >
-              <View style={{ marginRight: 15 }}>
+              <View style={{}}>
                 <Image
                   style={imageStyle ?? { height: 20, width: 20 }}
                   source={appleImg}
