@@ -28,6 +28,7 @@ interface SocialMediaTypes {
   googleTitle?: string;
   facebookTitle?: string;
   appleTitle?: string;
+  color?: string;
   googleImg?: ImageSourcePropType;
   facebookImg?: ImageSourcePropType;
   appleImg?: ImageSourcePropType;
@@ -55,6 +56,7 @@ const socialMedia = (props: SocialMediaTypes) => {
     onPress,
     onError,
     onSuccess,
+    color = 'black'
   } = props;
 
   const { registerUser, setError, setAppleToken } =
@@ -176,17 +178,17 @@ const socialMedia = (props: SocialMediaTypes) => {
               style={imageStyle ?? { height: 20, width: 20 }}
               source={require("../src/assets/google.png")}
             />
-            {googleTitle ? <Text>{googleTitle}</Text> : null}
+            {googleTitle ? <Text style={{ color: color }}>{googleTitle}</Text> : null}
           </TouchableOpacity>
           <TouchableOpacity
             style={imageContainerStyle}
-            // onPress={() => faceBookSignin()}
+          // onPress={() => faceBookSignin()}
           >
             <Image
               style={imageStyle ?? { height: 20, width: 20 }}
               source={require("../src/assets/FB.png")}
             />
-            {facebookTitle ? <Text>{facebookTitle}</Text> : null}
+            {facebookTitle ? <Text style={{ color: color }}>{facebookTitle}</Text> : null}
           </TouchableOpacity>
           <TouchableOpacity
             style={imageContainerStyle}
@@ -203,7 +205,7 @@ const socialMedia = (props: SocialMediaTypes) => {
                 source={require("../src/assets/appleIcon.png")}
               />
             </View>
-            {appleTitle ? <Text>{appleTitle}</Text> : null}
+            {appleTitle ? <Text style={{ color: color }}>{appleTitle}</Text> : null}
           </TouchableOpacity>
         </>
       ) : (
@@ -222,19 +224,19 @@ const socialMedia = (props: SocialMediaTypes) => {
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={googleImg ?? require("../src/assets/google.png")}
               />
-              {googleTitle ? <Text>{googleTitle}</Text> : null}
+              {googleTitle ? <Text style={{ color: color }}>{googleTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
           {facebookImg ? (
             <TouchableOpacity
               style={imageContainerStyle}
-              // onPress={() => faceBookSignin()}
+            // onPress={() => faceBookSignin()}
             >
               <Image
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={facebookImg}
               />
-              {facebookTitle ? <Text>{facebookTitle}</Text> : null}
+              {facebookTitle ? <Text style={{ color: color }}>{facebookTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
           {appleImg ? (
@@ -251,7 +253,7 @@ const socialMedia = (props: SocialMediaTypes) => {
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={appleImg}
               />
-              {appleTitle ? <Text>{appleTitle}</Text> : null}
+              {appleTitle ? <Text style={{ color: color }}>{appleTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
         </>
