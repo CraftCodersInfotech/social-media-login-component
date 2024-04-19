@@ -29,6 +29,9 @@ interface SocialMediaTypes {
   facebookTitle?: string;
   appleTitle?: string;
   color?: string;
+  googleicon?: any;
+  facebookicon?: any;
+  appleicon?: any;
   googleImg?: ImageSourcePropType;
   facebookImg?: ImageSourcePropType;
   appleImg?: ImageSourcePropType;
@@ -56,6 +59,9 @@ const socialMedia = (props: SocialMediaTypes) => {
     onPress,
     onError,
     onSuccess,
+    appleicon,
+    facebookicon,
+    googleicon,
     color = 'black'
   } = props;
 
@@ -174,20 +180,20 @@ const socialMedia = (props: SocialMediaTypes) => {
               }
             }}
           >
-            <Image
+            {googleicon ? googleicon : <Image
               style={imageStyle ?? { height: 20, width: 20 }}
               source={require("../src/assets/google.png")}
-            />
+            />}
             {googleTitle ? <Text style={{ color: color }}>{googleTitle}</Text> : null}
           </TouchableOpacity>
           <TouchableOpacity
             style={imageContainerStyle}
           // onPress={() => faceBookSignin()}
           >
-            <Image
+            {facebookicon ? facebookicon : <Image
               style={imageStyle ?? { height: 20, width: 20 }}
               source={require("../src/assets/FB.png")}
-            />
+            />}
             {facebookTitle ? <Text style={{ color: color }}>{facebookTitle}</Text> : null}
           </TouchableOpacity>
           <TouchableOpacity
@@ -200,10 +206,10 @@ const socialMedia = (props: SocialMediaTypes) => {
             }}
           >
             <View style={{}}>
-              <Image
+              {appleicon ? appleicon : <Image
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={require("../src/assets/appleIcon.png")}
-              />
+              />}
             </View>
             {appleTitle ? <Text style={{ color: color }}>{appleTitle}</Text> : null}
           </TouchableOpacity>
@@ -220,10 +226,10 @@ const socialMedia = (props: SocialMediaTypes) => {
                 }
               }}
             >
-              <Image
+              {googleicon ? googleicon : <Image
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={googleImg ?? require("../src/assets/google.png")}
-              />
+              />}
               {googleTitle ? <Text style={{ color: color }}>{googleTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
@@ -232,10 +238,10 @@ const socialMedia = (props: SocialMediaTypes) => {
               style={imageContainerStyle}
             // onPress={() => faceBookSignin()}
             >
-              <Image
+              {facebookicon ? facebookicon : <Image
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={facebookImg}
-              />
+              />}
               {facebookTitle ? <Text style={{ color: color }}>{facebookTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
@@ -249,10 +255,10 @@ const socialMedia = (props: SocialMediaTypes) => {
                 }
               }}
             >
-              <Image
+              {appleicon ? appleicon : <Image
                 style={imageStyle ?? { height: 20, width: 20 }}
                 source={appleImg}
-              />
+              />}
               {appleTitle ? <Text style={{ color: color }}>{appleTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
