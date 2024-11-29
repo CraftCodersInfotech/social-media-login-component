@@ -68,32 +68,32 @@ const socialMedia = (props: SocialMediaTypes) => {
   const { registerUser, setError, setAppleToken } =
     useContext<any>(SigninContext);
 
-  const googleSignin = async () => {
-    setError(undefined);
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log("user info", userInfo);
-      if (onSuccess) {
-        onSuccess(userInfo);
-      }
-      await registerUser(userInfo);
-    } catch (error: any) {
-      if (onError) {
-        onError(error);
-      }
-      setError(error);
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log("error1", error);
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log("error2", error);
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log("error3", error);
-      } else {
-        console.log("error4", error);
-      }
-    }
-  };
+  // const googleSignin = async () => {
+  //   setError(undefined);
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const userInfo = await GoogleSignin.signIn();
+  //     console.log("user info", userInfo);
+  //     if (onSuccess) {
+  //       onSuccess(userInfo);
+  //     }
+  //     await registerUser(userInfo);
+  //   } catch (error: any) {
+  //     if (onError) {
+  //       onError(error);
+  //     }
+  //     setError(error);
+  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+  //       console.log("error1", error);
+  //     } else if (error.code === statusCodes.IN_PROGRESS) {
+  //       console.log("error2", error);
+  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       console.log("error3", error);
+  //     } else {
+  //       console.log("error4", error);
+  //     }
+  //   }
+  // };
 
   // const faceBookSignin = async () => {
   //   const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
@@ -111,7 +111,32 @@ const socialMedia = (props: SocialMediaTypes) => {
 
   //   return auth().signInWithCredential(facebookCredential);
   // }
+  const googleSignin = async () => {
+    setError(undefined);
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log("user info", userInfo);
 
+      // Create a new Firebase credential with the token
+      const { idToken } = userInfo;
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      // Sign in with the credential
+      const userCredential = await auth().signInWithCredential(googleCredential);
+      console.log("Firebase user credential:", userCredential);
+
+      if (onSuccess) {
+        onSuccess(userCredential);
+      }
+    } catch (error) {
+      if (onError) {
+        onError(error);
+      }
+      setError(error);
+      console.log("Sign-in error:", error);
+    }
+  };
   async function onAppleButtonPress() {
     setError(undefined);
     // Start the sign-in request
