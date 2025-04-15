@@ -32,9 +32,9 @@ interface SocialMediaTypes {
   googleicon?: any;
   facebookicon?: any;
   appleicon?: any;
-  googleImg?: ImageSourcePropType;
-  facebookImg?: ImageSourcePropType;
-  appleImg?: ImageSourcePropType;
+  googleImg?: any;
+  facebookImg?: any;
+  appleImg?: any;
   imageContainerStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ImageStyle>;
   defaultImages?: boolean;
@@ -261,10 +261,7 @@ const socialMedia = (props: SocialMediaTypes) => {
                 }
               }}
             >
-              {googleicon ? googleicon : <Image
-                style={imageStyle ?? { height: 20, width: 20 }}
-                source={googleImg ?? require("../src/assets/google.png")}
-              />}
+              {googleicon ? googleicon : googleImg}
               {googleTitle ? <Text style={{ color: color }}>{googleTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
@@ -273,10 +270,7 @@ const socialMedia = (props: SocialMediaTypes) => {
               style={imageContainerStyle}
             // onPress={() => faceBookSignin()}
             >
-              {facebookicon ? facebookicon : <Image
-                style={imageStyle ?? { height: 20, width: 20 }}
-                source={facebookImg}
-              />}
+              {facebookicon ? facebookicon : facebookImg}
               {facebookTitle ? <Text style={{ color: color }}>{facebookTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
@@ -290,10 +284,7 @@ const socialMedia = (props: SocialMediaTypes) => {
                 }
               }}
             >
-              {appleicon ? appleicon : <Image
-                style={imageStyle ?? { height: 20, width: 20 }}
-                source={appleImg}
-              />}
+              {appleicon ? appleicon : appleImg}
               {appleTitle ? <Text style={{ color: color }}>{appleTitle}</Text> : null}
             </TouchableOpacity>
           ) : null}
